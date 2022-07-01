@@ -49,22 +49,23 @@ void AWukongCharacter::MoveRight(float Value)
 {
 	if ((Controller != nullptr) && (Value != 0.f))
 	{
+		// create rotators 0 out pitch and roll get vector direction
 		const FRotator Rotation { Controller->GetControlRotation() };
-
 		const FRotator YawRotation { 0, Rotation.Yaw, 0 };
-
 		const FVector Direction { FRotationMatrix{YawRotation}.GetUnitAxis(EAxis::Y) };
 
 		AddMovementInput(Direction, Value);
 	}
 }
 
+// Turn rate for character
 void AWukongCharacter::TurnRate(float Rate)
 {
 	// Turning degrees per delta seconds
 	AddControllerYawInput(Rate * DefaultTurnRate * GetWorld()->GetDeltaSeconds());
 }
 
+// Lookup rate for character
 void AWukongCharacter::LookUpRate(float Rate)
 {
 	// Lookup rate degrees per delta seconds
