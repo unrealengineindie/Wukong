@@ -35,4 +35,8 @@ private:
 	// Speed of Wukong
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Movement", meta=(AllowPrivateAccess="true"))
 	float Speed;
+
+	// Movement offset yaw to be used in anim instance blueprint
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Movement", meta=(AllowPrivateAccess="true"))
+	float MovementOffsetYaw;
 };
