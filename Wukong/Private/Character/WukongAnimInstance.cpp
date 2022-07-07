@@ -4,6 +4,7 @@
 #include "Character/WukongAnimInstance.h"
 
 #include "Character/WukongCharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
 // Acts like tick for animation. Get speed.
@@ -21,14 +22,14 @@ void UWukongAnimInstance::UpdateAnimationProperties(float DeltaTime)
 		Velocity.Z = 0;
 		Speed = Velocity.Size();
 
+		// Is the player in the air
+		bIsInAir = WukongCharacter->GetCharacterMovement()->IsFalling();
+		
 		// Get offset yaw to player in blend spaces
 		FRotator const AimRotation = WukongCharacter->GetBaseAimRotation();
 		FRotator const MovementRotation = UKismetMathLibrary::MakeRotFromX(WukongCharacter->GetVelocity());
 
 		MovementOffsetYaw = UKismetMathLibrary::NormalizedDeltaRotator(MovementRotation, AimRotation).Yaw;
-
-		FString const DebugMessage = FString::Printf(TEXT("Message: %f"), AimRotation.Yaw);
-		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2, FColor::White, DebugMessage);
 	}
 }
 
