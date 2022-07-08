@@ -9,7 +9,9 @@
 // Sets default values
 AWukongCharacter::AWukongCharacter() :
 	DefaultTurnRate(45.f),
-	DefaultLookUpRate(45.f)
+	DefaultLookUpRate(45.f),
+	WalkSpeed(300.f),
+	RunSpeed(600.f)
 {
 	// Create camera boom
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -87,6 +89,20 @@ void AWukongCharacter::LookUpRate(float Rate)
 	AddControllerPitchInput(Rate * DefaultLookUpRate * GetWorld()->GetDeltaSeconds());
 }
 
+// Running
+void AWukongCharacter::Running()
+{
+	if (GetCharacterMovement()->GetCurrentAcceleration().Size() > 0.0f)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+	}
+}
+
+// Stop Running
+void AWukongCharacter::StopRunning()
+{
+	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+}
 
 // Called to bind functionality to input
 void AWukongCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -107,5 +123,9 @@ void AWukongCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	// Jumping
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
+	// Running
+	PlayerInputComponent->BindAction("Running", IE_Pressed, this, &AWukongCharacter::Running);
+	PlayerInputComponent->BindAction("Running", IE_Released, this, &AWukongCharacter::StopRunning);
 }
 

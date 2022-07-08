@@ -38,6 +38,10 @@ protected:
 	// Input to lookup or down at normalized rate given
 	void LookUpRate(float Rate);
 
+	// Running and stop running
+	void Running();
+	void StopRunning();
+
 private:
 
 	// Spring Arm Component
@@ -55,4 +59,12 @@ private:
 	// Default lookup rate
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera", meta=(AllowPrivateAccess="true"))
 	float DefaultLookUpRate;
+
+	// Set walk speed
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Movement", meta=(AllowPrivateAccess="true"))
+	float WalkSpeed;
+
+	// Set run speed
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Movement", meta=(AllowPrivateAccess="true"))
+	float RunSpeed;
 };
