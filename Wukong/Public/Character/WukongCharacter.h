@@ -9,6 +9,7 @@
 // Declarations
 class USpringArmComponent;
 class UCameraComponent;
+class UAnimMontage;
 
 UCLASS()
 class WUKONG_API AWukongCharacter : public ACharacter
@@ -42,6 +43,9 @@ protected:
 	void Running();
 	void StopRunning();
 
+	// Recall ability
+	void Recall();
+
 private:
 
 	// Spring Arm Component
@@ -67,4 +71,8 @@ private:
 	// Set run speed
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Movement", meta=(AllowPrivateAccess="true"))
 	float RunSpeed;
+
+    // Recall montage
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Montage", meta=(AllowPrivateAccess="true"))
+	UAnimMontage* RecallMontage;
 };

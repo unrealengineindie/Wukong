@@ -104,6 +104,20 @@ void AWukongCharacter::StopRunning()
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
+// Play recall montage
+void AWukongCharacter::Recall()
+{
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance && RecallMontage)
+	{
+		if (!AnimInstance->Montage_IsPlaying(RecallMontage))
+		{
+			AnimInstance->Montage_Play(RecallMontage);
+			AnimInstance->Montage_JumpToSection("Recall");
+		}
+	}
+}
+
 // Called to bind functionality to input
 void AWukongCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -127,5 +141,8 @@ void AWukongCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	// Running
 	PlayerInputComponent->BindAction("Running", IE_Pressed, this, &AWukongCharacter::Running);
 	PlayerInputComponent->BindAction("Running", IE_Released, this, &AWukongCharacter::StopRunning);
+
+	// Combat abilities
+	PlayerInputComponent->BindAction("Recall", IE_Pressed, this, &AWukongCharacter::Recall);
 }
 
