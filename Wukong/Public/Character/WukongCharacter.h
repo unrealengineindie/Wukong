@@ -46,6 +46,12 @@ protected:
 	// Recall ability
 	void Recall();
 
+	// Play animation montage that disable movement
+	void PlayAnimMontage(UAnimMontage* MontageToPlay, FName SectionName = "Default");
+	
+	// Set character movement back to walking
+	void EnableWalk();
+
 private:
 
 	// Spring Arm Component
@@ -72,6 +78,9 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Movement", meta=(AllowPrivateAccess="true"))
 	float RunSpeed;
 
+	// Timer handle to disable character movement used with montages.
+	FTimerHandle TimerMovementWalking;
+	
     // Recall montage
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Montage", meta=(AllowPrivateAccess="true"))
 	UAnimMontage* RecallMontage;

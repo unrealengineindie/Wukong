@@ -107,15 +107,39 @@ void AWukongCharacter::StopRunning()
 // Play recall montage
 void AWukongCharacter::Recall()
 {
+	PlayAnimMontage(RecallMontage, FName("Recall"));
+}
+
+// Play anim montage that disables character movement
+void AWukongCharacter::PlayAnimMontage(UAnimMontage* MontageToPlay, FName SectionName)
+{
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-	if (AnimInstance && RecallMontage)
+	if (AnimInstance && MontageToPlay)
 	{
-		if (!AnimInstance->Montage_IsPlaying(RecallMontage))
+		// Check to see if the montage is already playing
+		if (!AnimInstance->Montage_IsPlaying(MontageToPlay))
 		{
-			AnimInstance->Montage_Play(RecallMontage);
-			AnimInstance->Montage_JumpToSection("Recall");
+			// Disable character movement
+			GetCharacterMovement()->DisableMovement();
+			
+			// Get time it takes to play montage
+			int32 const SectionIndex = MontageToPlay->GetSectionIndex(SectionName);
+			int32 const SectionLength = MontageToPlay->GetSectionLength(SectionIndex);
+
+			// Play montage and start timer
+			AnimInstance->Montage_Play(MontageToPlay);
+			AnimInstance->Montage_JumpToSection(SectionName);
+
+			// Setup timer to enable walking after montage stop playing
+			GetWorldTimerManager().SetTimer(TimerMovementWalking, this, &AWukongCharacter::EnableWalk, SectionLength);
 		}
 	}
+}
+
+// Enable walking for character
+void AWukongCharacter::EnableWalk()
+{
+	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 }
 
 // Called to bind functionality to input
