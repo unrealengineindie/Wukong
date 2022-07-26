@@ -142,6 +142,12 @@ void AWukongCharacter::EnableWalk()
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 }
 
+// Main attack
+void AWukongCharacter::MainAttack()
+{
+	PlayAnimMontage(MainAttackMontage, FName("MainAttack"));
+}
+
 // Called to bind functionality to input
 void AWukongCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -168,5 +174,6 @@ void AWukongCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	// Combat abilities
 	PlayerInputComponent->BindAction("Recall", IE_Pressed, this, &AWukongCharacter::Recall);
+	PlayerInputComponent->BindAction("MainAttack", IE_Pressed, this, &AWukongCharacter::MainAttack);
 }
 

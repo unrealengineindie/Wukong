@@ -52,6 +52,9 @@ protected:
 	// Set character movement back to walking
 	void EnableWalk();
 
+	// LMB main attack
+	void MainAttack();
+	
 private:
 
 	// Spring Arm Component
@@ -84,4 +87,8 @@ private:
     // Recall montage
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Montage", meta=(AllowPrivateAccess="true"))
 	UAnimMontage* RecallMontage;
+
+    // Main attack montage
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Montage", meta=(AllowPrivateAccess="true"))
+	UAnimMontage* MainAttackMontage;
 };
