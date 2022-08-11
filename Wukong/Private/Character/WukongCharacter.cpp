@@ -48,6 +48,9 @@ void AWukongCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	// Bind function to overlap event for weapon box
+	RightWeaponCollision->OnComponentBeginOverlap.AddDynamic(this, &AWukongCharacter::OnRightWeaponOverlap);
+	
 	// Setup right weapon collision box
 	RightWeaponCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	RightWeaponCollision->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
@@ -157,6 +160,12 @@ void AWukongCharacter::MainAttack()
 	PlayAnimMontage(MainAttackMontage, FName("MainAttack"));
 }
 
+void AWukongCharacter::OnRightWeaponOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Apply damage"));
+}
+
 // Called to bind functionality to input
 void AWukongCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -184,5 +193,17 @@ void AWukongCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	// Combat abilities
 	PlayerInputComponent->BindAction("Recall", IE_Pressed, this, &AWukongCharacter::Recall);
 	PlayerInputComponent->BindAction("MainAttack", IE_Pressed, this, &AWukongCharacter::MainAttack);
+}
+
+void AWukongCharacter::ActivateRightWeapon()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Activate weapon"));
+	RightWeaponCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+}
+
+void AWukongCharacter::DeactivateRightWeapon()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Deactivate weapon"));
+	RightWeaponCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 

@@ -6,11 +6,24 @@
 void UNotifyStateRightWeapon::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation,
 	float TotalDuration, const FAnimNotifyEventReference& EventReference)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Notify Begin"));
+	if (MeshComp && MeshComp->GetOwner())
+	{
+		WukongCharacter = Cast<AWukongCharacter>(MeshComp->GetOwner());
+		if (WukongCharacter)
+		{
+			WukongCharacter->ActivateRightWeapon();
+		}
+	}
 }
 
 void UNotifyStateRightWeapon::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation,
 	const FAnimNotifyEventReference& EventReference)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Notify End"));
+	if (MeshComp && MeshComp->GetOwner())
+	{
+		if (WukongCharacter)
+		{
+			WukongCharacter->DeactivateRightWeapon();
+		}
+	}
 }
