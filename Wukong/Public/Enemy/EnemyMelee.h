@@ -13,5 +13,12 @@ UCLASS()
 class WUKONG_API AEnemyMelee : public AEnemy
 {
 	GENERATED_BODY()
-	
+
+public:
+
+	AEnemyMelee();
+
+protected:
+
+private:
 };
