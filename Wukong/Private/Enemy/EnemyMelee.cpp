@@ -3,3 +3,7 @@
 
 #include "Enemy/EnemyMelee.h"
 
+AEnemyMelee::AEnemyMelee()
+{
+	
+}
