@@ -44,4 +44,5 @@ public:
 
 	// Override melee hit interface
 	virtual  void MeleeHIt_Implementation(FHitResult HitResult) override;
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 };

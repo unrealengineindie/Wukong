@@ -109,4 +109,7 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat", meta=(AllowPrivateAccess="true"))
 	UBoxComponent* RightWeaponCollision;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat", meta=(AllowPrivateAccess="true"))
+	float BaseDamage;
 };

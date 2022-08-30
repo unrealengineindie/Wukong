@@ -6,14 +6,15 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Enemy/MeleeHitInterface.h"
-
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AWukongCharacter::AWukongCharacter() :
 	DefaultTurnRate(45.f),
 	DefaultLookUpRate(45.f),
 	WalkSpeed(300.f),
-	RunSpeed(600.f)
+	RunSpeed(600.f),
+	BaseDamage(20.f)
 {
 	// Create camera boom
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -162,17 +163,27 @@ void AWukongCharacter::MainAttack()
 	PlayAnimMontage(MainAttackMontage, FName("MainAttack"));
 }
 
+// Right weapon overlap
 void AWukongCharacter::OnRightWeaponOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	IMeleeHitInterface* MeleeHitInterface = Cast<IMeleeHitInterface>(SweepResult.GetActor());
-
-	if (MeleeHitInterface)
+	if (IsValid(SweepResult.GetActor()))
 	{
-		MeleeHitInterface->MeleeHIt_Implementation(SweepResult);
+		IMeleeHitInterface* MeleeHitInterface = Cast<IMeleeHitInterface>(SweepResult.GetActor());
+
+		if (MeleeHitInterface)
+		{
+			MeleeHitInterface->MeleeHIt_Implementation(SweepResult);
+		}
+		
+		// Apply damage to enemy
+		UGameplayStatics::ApplyDamage(
+			SweepResult.GetActor(),
+			BaseDamage,
+			GetController(),
+			this,
+			UDamageType::StaticClass());
 	}
-	
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Apply damage"));
 }
 
 // Called to bind functionality to input
