@@ -5,6 +5,8 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Enemy/MeleeHitInterface.h"
+
 
 // Sets default values
 AWukongCharacter::AWukongCharacter() :
@@ -163,6 +165,13 @@ void AWukongCharacter::MainAttack()
 void AWukongCharacter::OnRightWeaponOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	IMeleeHitInterface* MeleeHitInterface = Cast<IMeleeHitInterface>(SweepResult.GetActor());
+
+	if (MeleeHitInterface)
+	{
+		MeleeHitInterface->MeleeHIt_Implementation(SweepResult);
+	}
+	
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Apply damage"));
 }
 

@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MeleeHitInterface.h"
 #include "GameFramework/Character.h"
 #include "Enemy.generated.h"
 
 UCLASS()
-class WUKONG_API AEnemy : public ACharacter
+class WUKONG_API AEnemy : public ACharacter, public IMeleeHitInterface
 {
 	GENERATED_BODY()
 
@@ -38,4 +39,9 @@ private:
 	// Maximum allowed health of enemy
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat", meta=(AllowPrivateAccess="true"))
 	float MaxHealth;
+
+public:
+
+	// Override melee hit interface
+	virtual  void MeleeHIt_Implementation(FHitResult HitResult) override;
 };

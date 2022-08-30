@@ -18,6 +18,15 @@ void AEnemy::BeginPlay()
 	
 }
 
+void AEnemy::MeleeHIt_Implementation(FHitResult HitResult)
+{
+	// Do impact sound
+
+	// Play niagra affects
+
+	// play hit montage
+}
+
 // Called every frame
 void AEnemy::Tick(float DeltaTime)
 {
