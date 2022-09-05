@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WukongCharacterInterface.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/Character.h"
 #include "WukongCharacter.generated.h"
@@ -13,7 +14,7 @@ class UCameraComponent;
 class UAnimMontage;
 
 UCLASS()
-class WUKONG_API AWukongCharacter : public ACharacter
+class WUKONG_API AWukongCharacter : public ACharacter, public IWukongCharacterInterface
 {
 	GENERATED_BODY()
 
