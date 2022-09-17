@@ -20,11 +20,6 @@ void AEnemy::BeginPlay()
 	
 }
 
-void AEnemy::EnemyMainAttack()
-{
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Called from enemy class"));
-}
-
 void AEnemy::MeleeHIt_Implementation(FHitResult HitResult)
 {
 	// Do impact sound
