@@ -56,7 +56,7 @@ FName AEnemyMelee::GetAttackSectionName(int32 SectionCount)
 		break;
 	case 2:
 		SectionName = FName("Attack2");
-		break;;
+		break;
 	}
 
 	return SectionName;
