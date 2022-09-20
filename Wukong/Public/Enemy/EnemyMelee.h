@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Enemy/Enemy.h"
+#include "Components/BoxComponent.h"
 #include "EnemyMelee.generated.h"
 
 // Declarations
@@ -21,8 +22,15 @@ public:
 
 	AEnemyMelee();
 
+	// Activate and deactivate weapon boxes
+	virtual void ActivateRightWeapon();
+	virtual void DeactivateRightWeapon();
+	
 protected:
 
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+	
 	// Melee attack montage
 	void MeleeAttack();
 
@@ -30,12 +38,25 @@ protected:
 	void ResetMovementWalking();
 
 	FName GetAttackSectionName(int32 SectionCount);
+
+	// Right weapon overlap
+	UFUNCTION()
+	void OnRightWeaponOverlap(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult);
 	
 private:
 	// Montage for melee attacks
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat", meta=(AllowPrivateAccess = "true"))
 	UAnimMontage* MeleeAttackMontage;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat", meta=(AllowPrivateAccess="true"))
+	UBoxComponent* RightWeaponCollision;
+	
 	// Timer for playing attack montage
 	FTimerHandle TimerAttack;
 

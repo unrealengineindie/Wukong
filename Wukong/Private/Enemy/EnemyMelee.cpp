@@ -7,7 +7,35 @@
 
 AEnemyMelee::AEnemyMelee()
 {
+	// Right weapon collision box
+	RightWeaponCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Right Weapon Box"));
+	RightWeaponCollision->SetupAttachment(GetMesh(), FName("RightWeaponBone"));
+}
+
+void AEnemyMelee::ActivateRightWeapon()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Enemy Activate weapon"));
+	RightWeaponCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+}
+
+void AEnemyMelee::DeactivateRightWeapon()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Enemy Deactivate weapon"));
+	RightWeaponCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void AEnemyMelee::BeginPlay()
+{
+	Super::BeginPlay();
+
+	// Bind function to overlap event for weapon box
+	RightWeaponCollision->OnComponentBeginOverlap.AddDynamic(this, &AEnemyMelee::OnRightWeaponOverlap);
 	
+	// Setup right weapon collision box
+	RightWeaponCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	RightWeaponCollision->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
+	RightWeaponCollision->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	RightWeaponCollision->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
 }
 
 // Enemy melee attack montage
@@ -60,6 +88,15 @@ FName AEnemyMelee::GetAttackSectionName(int32 SectionCount)
 	}
 
 	return SectionName;
+}
+
+void AEnemyMelee::OnRightWeaponOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (IsValid(SweepResult.GetActor()))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Hit Player"));
+	}
 }
 
 // @TODO Refactor this when doing behavior tree
