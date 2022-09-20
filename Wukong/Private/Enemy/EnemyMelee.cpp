@@ -9,7 +9,7 @@ AEnemyMelee::AEnemyMelee()
 {
 	// Right weapon collision box
 	RightWeaponCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Right Weapon Box"));
-	RightWeaponCollision->SetupAttachment(GetMesh(), FName("RightWeaponBone"));
+	RightWeaponCollision->SetupAttachment(GetMesh(), FName("RightWeaponSocket"));
 }
 
 void AEnemyMelee::ActivateRightWeapon()
