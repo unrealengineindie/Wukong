@@ -25,6 +25,8 @@ public:
 	// Activate and deactivate weapon boxes
 	virtual void ActivateRightWeapon();
 	virtual void DeactivateRightWeapon();
+	virtual void ActivateLeftWeapon();
+	virtual void DeactivateLeftWeapon();
 	
 protected:
 
@@ -49,6 +51,16 @@ protected:
 		bool bFromSweep,
 		const FHitResult& SweepResult);
 	
+	// Right weapon overlap
+	UFUNCTION()
+	void OnLeftWeaponOverlap(
+		UPrimitiveComponent* OverlappedComponent,
+		AActor* OtherActor,
+		UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex,
+		bool bFromSweep,
+		const FHitResult& SweepResult);
+	
 private:
 	// Montage for melee attacks
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat", meta=(AllowPrivateAccess = "true"))
@@ -56,6 +68,9 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat", meta=(AllowPrivateAccess="true"))
 	UBoxComponent* RightWeaponCollision;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat", meta=(AllowPrivateAccess="true"))
+	UBoxComponent* LeftWeaponCollision;
 	
 	// Timer for playing attack montage
 	FTimerHandle TimerAttack;

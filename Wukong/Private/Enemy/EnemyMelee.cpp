@@ -10,18 +10,34 @@ AEnemyMelee::AEnemyMelee()
 	// Right weapon collision box
 	RightWeaponCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Right Weapon Box"));
 	RightWeaponCollision->SetupAttachment(GetMesh(), FName("RightWeaponSocket"));
+
+	// Left weapon collision box
+	LeftWeaponCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Left Weapon Box"));
+	LeftWeaponCollision->SetupAttachment(GetMesh(), FName("LeftWeaponSocket"));
 }
 
 void AEnemyMelee::ActivateRightWeapon()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Enemy Activate weapon"));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Enemy Right Activate weapon"));
 	RightWeaponCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 }
 
 void AEnemyMelee::DeactivateRightWeapon()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Enemy Deactivate weapon"));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Enemy Right Deactivate weapon"));
 	RightWeaponCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+void AEnemyMelee::ActivateLeftWeapon()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Enemy Left Activate weapon"));
+	LeftWeaponCollision->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+}
+
+void AEnemyMelee::DeactivateLeftWeapon()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Enemy Left Deactivate weapon"));
+	LeftWeaponCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 void AEnemyMelee::BeginPlay()
@@ -30,12 +46,18 @@ void AEnemyMelee::BeginPlay()
 
 	// Bind function to overlap event for weapon box
 	RightWeaponCollision->OnComponentBeginOverlap.AddDynamic(this, &AEnemyMelee::OnRightWeaponOverlap);
+	LeftWeaponCollision->OnComponentBeginOverlap.AddDynamic(this, &AEnemyMelee::OnLeftWeaponOverlap);
 	
 	// Setup right weapon collision box
 	RightWeaponCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	RightWeaponCollision->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
 	RightWeaponCollision->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	RightWeaponCollision->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
+
+	LeftWeaponCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	LeftWeaponCollision->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
+	LeftWeaponCollision->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	LeftWeaponCollision->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
 }
 
 // Enemy melee attack montage
@@ -95,7 +117,16 @@ void AEnemyMelee::OnRightWeaponOverlap(UPrimitiveComponent* OverlappedComponent,
 {
 	if (IsValid(SweepResult.GetActor()))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Hit Player"));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Right Hit Player"));
+	}
+}
+
+void AEnemyMelee::OnLeftWeaponOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (IsValid(SweepResult.GetActor()))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Left Hit Player"));
 	}
 }
 
