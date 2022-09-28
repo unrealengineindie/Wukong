@@ -14,7 +14,9 @@ AWukongCharacter::AWukongCharacter() :
 	DefaultLookUpRate(45.f),
 	WalkSpeed(300.f),
 	RunSpeed(600.f),
-	BaseDamage(20.f)
+	BaseDamage(20.f),
+	Health(100.f),
+	MaxHealth(100.f)
 {
 	// Create camera boom
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
@@ -225,5 +227,19 @@ void AWukongCharacter::DeactivateRightWeapon()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Deactivate weapon"));
 	RightWeaponCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+float AWukongCharacter::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+	AActor* DamageCauser)
+{
+	if (Health - DamageAmount <= 0.f)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Player is dead"));
+	}
+	else
+	{
+		Health -= DamageAmount;
+	}
+	return DamageAmount;
 }
 

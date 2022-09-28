@@ -3,6 +3,10 @@
 
 #include "Enemy/EnemyMelee.h"
 
+#include "Character/WukongCharacter.h"
+#include "Kismet/GameplayStatics.h"
+#include "Enemy/Enemy.h"
+#include "Enemy/EnemyAIController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 AEnemyMelee::AEnemyMelee()
@@ -115,18 +119,26 @@ FName AEnemyMelee::GetAttackSectionName(int32 SectionCount)
 void AEnemyMelee::OnRightWeaponOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (IsValid(SweepResult.GetActor()))
+	if (OtherActor == nullptr) return;
+
+	auto Character = Cast<AWukongCharacter>(OtherActor);
+
+	if (Character)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Right Hit Player"));
+		UGameplayStatics::ApplyDamage(Character, GetBaseDamage(), EnemyAIController, this, UDamageType::StaticClass());
 	}
 }
 
 void AEnemyMelee::OnLeftWeaponOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (IsValid(SweepResult.GetActor()))
+	if (OtherActor == nullptr) return;
+
+	auto Character = Cast<AWukongCharacter>(OtherActor);
+
+	if (Character)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Left Hit Player"));
+		UGameplayStatics::ApplyDamage(Character, GetBaseDamage(), EnemyAIController, this, UDamageType::StaticClass());
 	}
 }
 

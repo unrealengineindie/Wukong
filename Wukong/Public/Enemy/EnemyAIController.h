@@ -13,5 +13,10 @@ UCLASS()
 class WUKONG_API AEnemyAIController : public AAIController
 {
 	GENERATED_BODY()
-	
+
+public:
+	AEnemyAIController();
+
+protected:
+	virtual void BeginPlay() override;
 };

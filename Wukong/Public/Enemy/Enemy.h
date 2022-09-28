@@ -7,6 +7,8 @@
 #include "GameFramework/Character.h"
 #include "Enemy.generated.h"
 
+class AEnemyAIController;
+
 UCLASS()
 class WUKONG_API AEnemy : public ACharacter, public IMeleeHitInterface
 {
@@ -23,6 +25,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// Enemy Controller
+	UPROPERTY()
+	AEnemyAIController* EnemyAIController;
+	
 private:
 	// Enemy name to display on HUD
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat", meta=(AllowPrivateAccess="true"))
@@ -45,4 +51,7 @@ public:
 	// Override melee hit interface
 	virtual  void MeleeHIt_Implementation(FHitResult HitResult) override;
 	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
+	// Getters
+	FORCEINLINE float GetBaseDamage() const { return  BaseDamage; }
 };

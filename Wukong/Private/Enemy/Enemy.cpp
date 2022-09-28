@@ -3,6 +3,8 @@
 
 #include "Enemy/Enemy.h"
 
+#include "Enemy/EnemyAIController.h"
+
 // Sets default values
 AEnemy::AEnemy() :
 	Health(100.f),
@@ -17,7 +19,9 @@ AEnemy::AEnemy() :
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	// Setup enemy controller
+	EnemyAIController = Cast<AEnemyAIController>(GetController());
 }
 
 void AEnemy::MeleeHIt_Implementation(FHitResult HitResult)

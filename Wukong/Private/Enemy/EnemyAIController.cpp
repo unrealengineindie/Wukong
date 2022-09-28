@@ -3,3 +3,12 @@
 
 #include "Enemy/EnemyAIController.h"
 
+AEnemyAIController::AEnemyAIController()
+{
+	
+}
+
+void AEnemyAIController::BeginPlay()
+{
+	Super::BeginPlay();
+}
