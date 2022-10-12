@@ -73,6 +73,10 @@ protected:
 		int32 OtherBodyIndex,
 		bool bFromSweep,
 		const FHitResult& SweepResult);
+
+	// Handle logic after player dies
+	UFUNCTION(BlueprintImplementableEvent)
+	void DeathOfPlayer();
 	
 private:
 

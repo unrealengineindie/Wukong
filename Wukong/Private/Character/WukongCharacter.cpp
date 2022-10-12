@@ -234,7 +234,15 @@ float AWukongCharacter::TakeDamage(float DamageAmount, FDamageEvent const& Damag
 {
 	if (Health - DamageAmount <= 0.f)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Player is dead"));
+		Health = 0.f;
+
+		//GetMesh()->SetSimulatePhysics(false);
+		//GetMesh()->SetVisibility(false);
+		GetMesh()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+		GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+		// Called in character blueprint
+		DeathOfPlayer();
 	}
 	else
 	{
